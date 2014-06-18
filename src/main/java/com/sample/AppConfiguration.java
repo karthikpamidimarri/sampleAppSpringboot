@@ -115,7 +115,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -140,7 +139,6 @@ public class AppConfiguration {
 	@Value("${spring.datasource.password}")
 	private String databasePassword;
 
-	
 	@Bean
 	public DataSource dataSource() throws SQLException {
 		org.apache.tomcat.jdbc.pool.DataSource ds = new org.apache.tomcat.jdbc.pool.DataSource();
@@ -150,7 +148,7 @@ public class AppConfiguration {
 		ds.setPassword(databasePassword);
 
 		return ds;
-		
+
 	}
 
 	@Bean
@@ -186,12 +184,12 @@ public class AppConfiguration {
 		return new HibernateExceptionTranslator();
 	}
 
-	@Bean
-	public MappingJackson2HttpMessageConverter jackson2Converter() {
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		converter.setObjectMapper(objectMapper());
-		return converter;
-	}
+	/*
+	 * @Bean public MappingJackson2HttpMessageConverter jackson2Converter() {
+	 * MappingJackson2HttpMessageConverter converter = new
+	 * MappingJackson2HttpMessageConverter();
+	 * converter.setObjectMapper(objectMapper()); return converter; }
+	 */
 
 	@Bean
 	public ObjectMapper objectMapper() {
@@ -215,10 +213,8 @@ public class AppConfiguration {
 		// to allow coercion of JSON empty String ("") to null Object value:
 		((ObjectMapper) objectMapper)
 				.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-		
+
 		return (ObjectMapper) objectMapper;
 	}
-
-	
 
 }
